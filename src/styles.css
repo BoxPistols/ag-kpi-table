@@ -7,8 +7,8 @@
 body {
   color: #234;
   background-color: #ececec;
-  padding: 2vh 12vw;
   line-height: 1.75;
+  padding-top: 4vh;
 }
 
 .App {
@@ -17,20 +17,20 @@ body {
   background-color: #f9f9f9;
   padding: 3vh 5vw 4vh;
   border-radius: 1rem;
-  box-shadow: 0 6px 12px #00000033;
-  /* text-align: center; */
+  max-width: 80vw;
+  margin: auto;
 }
 
 ul {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* display: grid; */
-  /* place-items: left; */
+  display: grid;
+  place-items: left;
 }
 li {
   line-height: 1.5;
-  /* text-align: left; */
+  text-align: left;
 }
 
 p {
