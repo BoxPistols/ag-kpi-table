@@ -1,7 +1,8 @@
 "use client"
 
 import { Box, Typography } from "@mui/material"
-import UserList from "./UserList"
+// import UserList from "./UserList"
+import { KpiList } from "./KpiList"
 
 export const KpiTable = () => {
   return (
@@ -11,7 +12,8 @@ export const KpiTable = () => {
           <Typography variant="h5" mb={3}>
             KPI Table
           </Typography>
-          <UserList />
+          {/* <UserList /> */}
+          <KpiList />
         </Box>
       </Box>
     </>
