@@ -13,6 +13,7 @@ type Child = {
   title: string
   items: Item[]
 }
+
 type Item = {
   id: number
   name: string
@@ -45,7 +46,7 @@ export const KpiList = () => {
   return (
     <Box display="flex" gap={3}>
       <Box>
-        <Typography variant="h5">特徴量セットリスト</Typography>
+        <Typography variant="h6">特徴量セットリスト</Typography>
         {selectedParent?.children.map((child: Child, index: React.Key | null | undefined) => (
           <MenuItem key={index} onClick={() => handleChildClick(child)}>
             {child.title}
@@ -53,7 +54,7 @@ export const KpiList = () => {
         ))}
       </Box>
       <Box>
-        <Typography variant="h5">選択されたParentとChildに応じたテーブル</Typography>
+        <Typography variant="body1">選択されたParentとChildに応じたテーブル</Typography>
         <Select native value={selectedParent ? selectedParent.id : ""} onChange={handleParentSelect} displayEmpty>
           <option value="">-- KPIを選択 --</option>
           {parents.map((parent) => (
@@ -61,16 +62,21 @@ export const KpiList = () => {
               {parent.name}
             </option>
           ))}
+          <>
+            {kpis.map((item) => (
+              <p key={item.id}>{item.name}</p>
+            ))}
+          </>
         </Select>
         {selectedChild ? (
           <>
             <h3>
-              {selectedParent.name} - {selectedChild.title}
+              {selectedParent?.name} - {selectedChild.title}
             </h3>
             <Table>
               <TableHead>
                 <TableRow>
-                  {selectedParent.columns.map((column, index) => (
+                  {selectedParent?.columns.map((column, index) => (
                     <TableCell key={index}>{column}</TableCell>
                   ))}
                 </TableRow>
@@ -94,11 +100,6 @@ export const KpiList = () => {
           <p>KPIを選択してください</p>
         )}
       </Box>
-      <ul>
-        {kpis.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
     </Box>
   )
 }
