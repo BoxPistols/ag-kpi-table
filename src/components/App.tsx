@@ -5,7 +5,7 @@ export default function App() {
   return (
     <>
       <div className="App">
-        <h2>App</h2>
+        <h2>KPI APP</h2>
         <KpiTable />
       </div>
     </>
