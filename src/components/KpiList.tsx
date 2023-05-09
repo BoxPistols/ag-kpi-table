@@ -4,16 +4,19 @@ import { AgGridReact } from "ag-grid-react"
 import Data from "@/data.json"
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-alpine.css"
+import { List, ListItem, ListItemText } from "@mui/material"
 
 type Parent = {
   id: number
   name: string
+  columns: string[]
   children: Child[]
 }
 
 type Child = {
   title: string
   items: Item[]
+  columns: string[]
 }
 
 type Item = {
@@ -38,14 +41,15 @@ export const KpiList = () => {
     setSelectedChild(child)
     setRowData(child.items)
 
-    const columnNames = Object.keys(child.items[0])
-    const columns = columnNames.map((name) => ({
-      headerName: name,
-      field: name,
-      sortable: true,
-      filter: true,
-    }))
-    setColumnDefs(columns)
+    if (selectedParent) {
+      const columns = selectedParent.columns.map((name: string) => ({
+        headerName: name,
+        field: name,
+        sortable: true,
+        filter: true,
+      }))
+      setColumnDefs(columns)
+    }
   }
 
   const handleParentSelect = (event: { target: { value: any } }) => {
@@ -56,58 +60,108 @@ export const KpiList = () => {
     setColumnDefs([])
   }
 
+  const [columnCount, setColumnCount] = useState(0)
+
+  useEffect(() => {
+    if (selectedParent) {
+      setColumnCount(selectedParent.columns.length)
+    } else {
+      setColumnCount(0)
+    }
+  }, [selectedParent])
+
   return (
     <>
       <Box
         display="grid"
         gap={3}
-        sx={{ gridTemplateColumns: "minmax(180px, 1fr) minmax(200px, 4fr)", gridTemplateRows: "80px auto" }}
+        sx={{
+          gridTemplateColumns: "minmax(180px, 1fr) minmax(120px, 1fr) minmax(200px, 800px)",
+          gridTemplateRows: "80px auto",
+        }}
         width="100%"
       >
-        <Box sx={{ gridColumn: "1 / 3", gridRow: "1 / 2" }}>
+        <Box sx={{ gridColumn: "1 / 2", gridRow: "1 / 3" }}>
           <Typography variant="h6">特徴量セットリスト</Typography>
-        </Box>
-        <Box sx={{ gridColumn2: "1 / 2", gridRow2: "2 / 3" }}>
-          {selectedParent?.children.map((child: Child, index: React.Key | null | undefined) => (
-            <MenuItem key={index} onClick={() => handleChildClick(child)}>
-              {child.title}
-            </MenuItem>
-          ))}
-        </Box>
-        <Box display="flex" flexDirection="column" sx={{ gridColumn3: "2 / 3", gridRow3: "2 / 3" }}>
-          <Typography variant="body1">選択されたParentとChildに応じたテーブル</Typography>
-          <Select native value={selectedParent ? selectedParent.id : ""} onChange={handleParentSelect} displayEmpty>
-            <option value="">-- KPIを選択 --</option>
-            {parents.map((parent) => (
-              <option key={parent.id} value={parent.id}>
-                {parent.name}
-              </option>
-            ))}
-            <>
-              {kpis.map((item) => (
-                <React.Fragment key={item.id}>{item.name}</React.Fragment>
+          {selectedParent && (
+            <List>
+              {selectedParent.children.map((child: Child, index: number) => (
+                <ListItem button key={index} onClick={() => handleChildClick(child)}>
+                  <ListItemText primary={child.title} />
+                </ListItem>
               ))}
-            </>
-          </Select>
-          <Box sx={{ height: 480 }}>
-            {selectedChild ? (
+            </List>
+          )}
+        </Box>
+
+        <Box sx={{ gridColumn: "2 / 4", gridRow: "1 / 1" }}>
+          <Box display="flex" flexDirection="column" width="100%">
+            <Typography variant="body1">選択されたParentとChildに応じたテーブル</Typography>
+            <Select
+              native
+              value={selectedParent ? selectedParent.id : ""}
+              onChange={handleParentSelect}
+              displayEmpty
+              sx={{ maxWidth: 800 }}
+            >
+              <option value="">-- KPIを選択 --</option>
+              {parents.map((parent) => (
+                <option key={parent.id} value={parent.id}>
+                  {parent.name}
+                </option>
+              ))}
               <>
-                <h3>
-                  {selectedParent?.name} - {selectedChild.title}
-                </h3>
-                <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}>
-                  <AgGridReact
-                    rowData={rowData}
-                    columnDefs={columnDefs}
-                    // defaultColDef={{ resizable: true }}
-                  />
-                </div>
+                {kpis.map((item) => (
+                  <React.Fragment key={item.id}>{item.name}</React.Fragment>
+                ))}
               </>
-            ) : selectedParent ? (
-              <p>特徴要素を選択してください</p>
-            ) : (
-              <p>KPIを選択してください</p>
-            )}
+            </Select>
+            <Box sx={{ background: "#eee", width: "100%", height: "100%" }} px={1} py={0.5}>
+              <Typography variant="h6">
+                <>
+                  {selectedParent?.name} - {selectedChild?.title}
+                </>
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box sx={{ gridColumn: "2 / 2", gridRow: "2 / 2" }} mt={3}>
+          <Box sx={{ overflowY: "auto", maxHeight: 720 }}>
+            {/* Column Names List */}
+            <Typography variant="h6">カラム一覧</Typography>
+            <Typography variant="caption">({columnCount} カラム)</Typography>
+
+            {selectedParent &&
+              selectedParent.columns.map((name, index) => (
+                <Typography key={index} variant="body1">
+                  {name}
+                </Typography>
+              ))}
+          </Box>
+        </Box>
+
+        {/* Table */}
+        <Box sx={{ gridColumn: "3 / 3", gridRow: "2 / 2" }} mt={3}>
+          <Box display="flex" flexDirection="column">
+            {/* Column Names List */}
+
+            <Box sx={{ height: 600 }}>
+              {selectedChild ? (
+                <>
+                  <h3>
+                    {selectedParent?.name} - {selectedChild.title}
+                  </h3>
+                  <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}>
+                    <AgGridReact rowData={rowData} columnDefs={columnDefs} defaultColDef={{ resizable: true }} />
+                  </div>
+                </>
+              ) : selectedParent ? (
+                <p>特徴要素を選択してください</p>
+              ) : (
+                <p>KPIを選択してください</p>
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>
