@@ -517,7 +517,7 @@ acorn@^8.8.0:
 
 ag-grid-community@^29.3.4:
   version "29.3.4"
-  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-29.3.4.tgz#bd469299986d74102f71e61fe328fcf757f2be98"
+  resolved "https://registry.npmjs.org/ag-grid-community/-/ag-grid-community-29.3.4.tgz"
   integrity sha512-HQ/meI/4jBXitkpB7GIgmyQMEDm2MPLinZCGqGWnybZ5lnn77RIvBzNdcGlwqRxMjrbpIjRaQOcvWvki1KK4BA==
 
 ag-grid-react@^29.3.4:

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Box, Select, MenuItem, Typography } from "@mui/material"
 import { AgGridReact } from "ag-grid-react"
-import Data from "@/kpi.json"
+import Data from "@/data.json"
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-alpine.css"
 
@@ -74,7 +74,7 @@ export const KpiList = () => {
             </MenuItem>
           ))}
         </Box>
-        <Box sx={{ gridColumn3: "2 / 3", gridRow3: "2 / 3" }}>
+        <Box display="flex" flexDirection="column" sx={{ gridColumn3: "2 / 3", gridRow3: "2 / 3" }}>
           <Typography variant="body1">選択されたParentとChildに応じたテーブル</Typography>
           <Select native value={selectedParent ? selectedParent.id : ""} onChange={handleParentSelect} displayEmpty>
             <option value="">-- KPIを選択 --</option>
@@ -89,22 +89,26 @@ export const KpiList = () => {
               ))}
             </>
           </Select>
-          {selectedChild ? (
-            <>
-              <h3>
-                {selectedParent?.name} - {selectedChild.title}
-              </h3>
-              <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-                <AgGridReact rowData={rowData} columnDefs={columnDefs} defaultColDef={{ resizable: true }}>
-                  <AgGridReact rowData={rowData} columnDefs={columnDefs} defaultColDef={{ resizable: true }} />
-                </AgGridReact>
-              </div>
-            </>
-          ) : selectedParent ? (
-            <p>子要素を選択してください</p>
-          ) : (
-            <p>KPIを選択してください</p>
-          )}
+          <Box sx={{ height: 480 }}>
+            {selectedChild ? (
+              <>
+                <h3>
+                  {selectedParent?.name} - {selectedChild.title}
+                </h3>
+                <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}>
+                  <AgGridReact
+                    rowData={rowData}
+                    columnDefs={columnDefs}
+                    // defaultColDef={{ resizable: true }}
+                  />
+                </div>
+              </>
+            ) : selectedParent ? (
+              <p>特徴要素を選択してください</p>
+            ) : (
+              <p>KPIを選択してください</p>
+            )}
+          </Box>
         </Box>
       </Box>
     </>
