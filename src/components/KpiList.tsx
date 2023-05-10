@@ -25,7 +25,8 @@ type Item = {
 }
 
 export const KpiList = () => {
-  const kpis: Parent[] = Data as Parent[]
+  // const kpis: Parent[] = Data as Parent[]
+  const kpis: Parent[] = Data as unknown as Parent[]
 
   const [parents, setParents] = useState<Parent[]>([])
   const [selectedParent, setSelectedParent] = useState<Parent | null>(null)
@@ -34,7 +35,7 @@ export const KpiList = () => {
   const [columnDefs, setColumnDefs] = useState<any[]>([])
 
   useEffect(() => {
-    setParents(Data as Parent[])
+    setParents(Data as unknown as Parent[])
   }, [])
 
   const handleChildClick = (child: Child) => {
