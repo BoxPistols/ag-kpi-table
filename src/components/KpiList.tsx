@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Box } from "@mui/material"
+import { Box, Container } from "@mui/material"
 import Data from "@/data.json"
 import { ParentList } from "./ParentList"
 import { ChildList } from "./ChildList"
@@ -73,22 +73,33 @@ export const KpiList = () => {
 
   return (
     <>
-      <Box>{selectedParent && <ParentList childList={selectedParent.children} onChildClick={handleChildClick} />}</Box>
-
       <Box>
-        <ChildList parents={parents} selectedParent={selectedParent} onParentSelect={handleParentSelect} />
+        {selectedParent ? (
+          <ParentList childList={selectedParent.children} onChildClick={handleChildClick} />
+        ) : (
+          <ParentList childList={[]} onChildClick={handleChildClick} />
+        )}
       </Box>
+      <Container sx={{ marginLeft: 1 }}>
+        <Box display="flex" flexDirection="column">
+          <Box mb={3}>
+            <ChildList parents={parents} selectedParent={selectedParent} onParentSelect={handleParentSelect} />
+          </Box>
 
-      <Box>{selectedParent && <ColumnNamesList columns={selectedParent.columns} />}</Box>
+          <Box display="flex">
+            <Box>{selectedParent && <ColumnNamesList columns={selectedParent.columns} />}</Box>
 
-      <Box>
-        <Table
-          rowData={rowData}
-          columnDefs={columnDefs}
-          selectedParent={selectedParent}
-          selectedChild={selectedChild}
-        />
-      </Box>
+            <Box>
+              <Table
+                rowData={rowData}
+                columnDefs={columnDefs}
+                selectedParent={selectedParent}
+                selectedChild={selectedChild}
+              />
+            </Box>
+          </Box>
+        </Box>
+      </Container>
     </>
   )
 }

@@ -8,10 +8,10 @@ type ChildListProps = {
   onParentSelect: (event: { target: { value: any } }) => void
 }
 
-export const ChildList: React.FC<ChildListProps> = ({ parents, selectedParent, onParentSelect }) => (
-  <Box>
+export const ChildList = ({ parents, selectedParent, onParentSelect }: ChildListProps) => (
+  <Box width="100%"  display="flex" flexDirection="column">
     <Typography variant="body1">選択されたParentとChildに応じたテーブル</Typography>
-    <Select native value={selectedParent ? selectedParent.id : ""} onChange={onParentSelect} displayEmpty>
+    <Select native value={selectedParent ? selectedParent.id : ""} onChange={onParentSelect} displayEmpty size="small" sx={{maxWidth: 960}}>
       <option value="">-- KPIを選択 --</option>
       {parents.map((parent) => (
         <option key={parent.id} value={parent.id}>

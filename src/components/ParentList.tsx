@@ -12,12 +12,15 @@ export const ParentList = ({ childList, onChildClick }: ParentListProps) => {
     <List
       sx={{
         overflowY: "scroll",
-        maxHeight: "84vh",
         height: "100%",
+        Height: "84vh",
+
         border: "1px solid #eee",
         m: 1,
         whiteSpace: "nowrap",
         overflowX: "hidden",
+        width: 200,
+        backgroundColor: "#eee",
       }}
     >
       {childList.map((child: Child, index: number) => (

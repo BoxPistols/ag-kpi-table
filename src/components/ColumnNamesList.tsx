@@ -6,7 +6,7 @@ type ColumnNamesListProps = {
 }
 
 export const ColumnNamesList: React.FC<ColumnNamesListProps> = ({ columns }) => (
-  <Box>
+  <Box maxHeight="60vh" overflow="scroll">
     <Typography variant="h6">カラム一覧</Typography>
     {columns.map((name, index) => (
       <Typography key={index} variant="body1">

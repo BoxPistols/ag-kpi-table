@@ -15,16 +15,21 @@ type TableProps = {
 
 export const Table = ({ rowData, columnDefs, selectedParent, selectedChild }: TableProps) => {
   return (
-    <Box>
+    <Box display="block" ml={5} sx={{ minHeight: 400, maxHeight: 600, minWidth: 780, height: "100%", width: "100%" }}>
       {selectedChild ? (
         <>
           <h3>
             {selectedParent?.name} - {selectedChild.title}
           </h3>
-          {/* <div className="ag-theme-alpine" style={{ height: "100%", width: "100%" }}> */}
-          <div className="ag-theme-alpine" style={{ height: 800, width: 800 }}>
+          <Box
+            className="ag-theme-alpine"
+            sx={{
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <AgGridReact rowData={rowData} columnDefs={columnDefs} defaultColDef={{ resizable: true }} />
-          </div>
+          </Box>
         </>
       ) : selectedParent ? (
         <Typography>特徴要素を選択してください</Typography>
