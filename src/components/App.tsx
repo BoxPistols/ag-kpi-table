@@ -9,7 +9,6 @@ export default function App() {
       <CssBaseline />
 
       <Typography
-        variant="h5"
         align="center"
         sx={{
           backgroundColor: "#3e71c5f3",
@@ -24,14 +23,13 @@ export default function App() {
         AgGrid Get Data from API
       </Typography>
       <Typography
-        variant="h6"
         border={"1px solid #eee"}
         sx={{
           py: 1,
           px: 2,
         }}
       >
-        <Typography variant="h5">KPI APP</Typography>
+        <Typography>KPI APP</Typography>
       </Typography>
       <div className="App">
         <KpiTable />
